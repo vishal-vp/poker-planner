@@ -1,35 +1,58 @@
 "use client";
 
 import { ALLOWED_STORY_POINTS } from "@/app-constants";
-import { registerCallbackForRoomData } from "@/firebase";
+import {
+  addEstimate,
+  clearEstimates,
+  joinRoom,
+  registerCallbackForRoomData,
+  setEstimateVisibility,
+} from "@/firebase";
+import { getUserInfo } from "@/utils";
 import { Button } from "antd";
 import { useEffect, useState } from "react";
+import EstimationsBoard from "./EstimationsBoard";
 
 export default function Room({ params }) {
-  const [selectedStoryPoint, setSelectedStoryPoint] = useState();
+  const [roomData, setRoomData] = useState({});
+
+  const userInfo = getUserInfo();
+  const { userID } = userInfo;
+
+  const roomID = params?.roomID;
+  const currentEstimate = roomData?.estimates?.[userID];
+  const isOwner = roomData?.owner?.userID === userID;
+  const isVisible = roomData?.isVisible;
+
   useEffect(() => {
-    const { unsubscribe } = registerCallbackForRoomData(
-      params?.roomID,
-      (value) => console.log(value)
+    joinRoom(roomID, userInfo);
+    const { unsubscribe } = registerCallbackForRoomData(roomID, (value) =>
+      setRoomData(value)
     );
     return () => unsubscribe();
-  }, [params?.roomID]);
+  }, [roomID, userInfo]);
 
   return (
     <>
-      <Button>Delete Estimates</Button>
-      <Button>Show Estimates</Button>
+      <Button onClick={() => clearEstimates(roomID)} disabled={!isOwner}>
+        Delete Estimates
+      </Button>
+      <Button
+        onClick={() => setEstimateVisibility(roomID, !isVisible)}
+        disabled={!isOwner}
+      >{`${isVisible ? "Hide" : "Show"} Estimates`}</Button>
       {ALLOWED_STORY_POINTS?.map((storyPoint) => {
         return (
           <Button
-            type={selectedStoryPoint === storyPoint ? "primary" : "default"}
+            type={currentEstimate === storyPoint ? "primary" : "default"}
             key={storyPoint}
-            onClick={() => setSelectedStoryPoint(storyPoint)}
+            onClick={() => addEstimate(roomID, userID, storyPoint)}
           >
             {storyPoint}
           </Button>
         );
       })}
+      {roomData?.users && <EstimationsBoard roomData={roomData} />}
     </>
   );
 }

@@ -16,8 +16,24 @@ const app = initializeApp(firebaseConfig);
 // Initialize Realtime Database and get a reference to the service
 export const database = getDatabase(app);
 
-export function createRoom(roomID) {
-  set(ref(database, `rooms/${roomID}`), { a: 1, b: 2 });
+export function createRoom(roomID, roomData) {
+  set(ref(database, `rooms/${roomID}`), roomData);
+}
+
+export function joinRoom(roomID, userInfo) {
+  set(ref(database, `rooms/${roomID}/users/${userInfo?.userID}`), userInfo);
+}
+
+export function addEstimate(roomID, userID, estimate) {
+  set(ref(database, `rooms/${roomID}/estimates/${userID}`), estimate);
+}
+
+export function setEstimateVisibility(roomID, visibility) {
+  set(ref(database, `rooms/${roomID}/isVisible`), visibility);
+}
+
+export function clearEstimates(roomID) {
+  set(ref(database, `rooms/${roomID}/estimates`), null);
 }
 
 export function registerCallbackForRoomData(roomID, callback) {

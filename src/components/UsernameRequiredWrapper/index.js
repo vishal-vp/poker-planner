@@ -1,13 +1,14 @@
+"use client";
+
 import { USER_INFO_LOCALSTORAGE_KEY } from "@/app-constants";
+import { getUserInfo } from "@/utils";
 import { Button, Form, Input } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 
 export default function UsernameRequiredWrapper({ children }) {
-  const { userID, username } = JSON.parse(
-    localStorage.getItem(USER_INFO_LOCALSTORAGE_KEY) || "{}"
-  ) || { username: undefined, userID: undefined };
+  const { username, userID } = getUserInfo();
   const [isUserNewlyCreated, setIsUserNewlyCreated] = useState(false);
 
   function handleUsernameChange(values) {
