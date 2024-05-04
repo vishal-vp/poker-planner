@@ -7,6 +7,8 @@ import FormItem from "antd/es/form/FormItem";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 
+import styles from "./index.module.css";
+
 export default function UsernameRequiredWrapper({ children }) {
   const { username, userID } = getUserInfo();
   const [isUserNewlyCreated, setIsUserNewlyCreated] = useState(false);
@@ -24,14 +26,18 @@ export default function UsernameRequiredWrapper({ children }) {
     return children;
   } else {
     return (
-      <Form onFinish={handleUsernameChange}>
+      <Form
+        className={styles.usernameRequiredWrapper}
+        onFinish={handleUsernameChange}
+        wrapperCol={{ span: 24 }}
+      >
         <FormItem
           rules={[{ required: true, message: "This field is required!" }]}
           name="username"
         >
           <Input placeholder="Please enter your username" />
         </FormItem>
-        <FormItem>
+        <FormItem wrapperCol={{ offset: 4 }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
