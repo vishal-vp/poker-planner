@@ -1,5 +1,6 @@
 "use client";
 
+import { generateRoomURLFromID } from "@/utils";
 import styles from "./page.module.css";
 import { Button, Form, Input, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
@@ -10,12 +11,12 @@ export default function Home() {
   const router = useRouter();
 
   function handleJoinRoom(values) {
-    router.push(`/${values?.roomID}`);
+    router.push(generateRoomURLFromID(values?.roomID));
   }
 
   function handleCreateNewRoom() {
     const roomID = nanoid();
-    router.push(`/${roomID}`);
+    router.push(generateRoomURLFromID(roomID));
   }
 
   return (
