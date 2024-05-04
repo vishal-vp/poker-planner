@@ -1,6 +1,7 @@
-export const LOCALSTORAGE_KEY = "poker-planner-state";
+export const USER_INFO_LOCALSTORAGE_KEY = "poker-planner-user-info";
 
 export const PATHS = {
+  HOME: "/",
   ROOM: "/room",
 };
 
