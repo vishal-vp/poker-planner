@@ -34,7 +34,14 @@ export default function Room({ params }) {
 
   return (
     <>
-      <Button onClick={() => clearEstimates(roomID)} disabled={!isOwner}>
+      <Button
+        onClick={() => {
+          setEstimateVisibility(roomID, false);
+          clearEstimates(roomID);
+        }}
+        disabled={!isOwner}
+        danger
+      >
         Delete Estimates
       </Button>
       <Button
