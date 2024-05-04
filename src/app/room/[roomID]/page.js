@@ -9,6 +9,8 @@ export default function Room({ params }) {
 
   return (
     <>
+      <Button>Delete Estimates</Button>
+      <Button>Show Estimates</Button>
       {ALLOWED_STORY_POINTS?.map((storyPoint) => {
         return (
           <Button
