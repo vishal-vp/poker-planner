@@ -6,6 +6,7 @@ import { Button, Form, Input, message } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
+import { createRoom } from "@/firebase";
 
 export default function Home() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function Home() {
 
   function handleCreateNewRoom() {
     const roomID = nanoid();
+    createRoom(roomID);
     router.push(generateRoomURLFromID(roomID));
   }
 

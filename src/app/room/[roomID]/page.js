@@ -1,11 +1,19 @@
 "use client";
 
 import { ALLOWED_STORY_POINTS } from "@/app-constants";
+import { registerCallbackForRoomData } from "@/firebase";
 import { Button } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Room({ params }) {
   const [selectedStoryPoint, setSelectedStoryPoint] = useState();
+  useEffect(() => {
+    const { unsubscribe } = registerCallbackForRoomData(
+      params?.roomID,
+      (value) => console.log(value)
+    );
+    return () => unsubscribe();
+  }, [params?.roomID]);
 
   return (
     <>
