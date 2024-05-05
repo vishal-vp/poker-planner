@@ -2,6 +2,7 @@
 
 import { Table } from "antd";
 import styles from "./index.module.css";
+import { EyeInvisibleTwoTone, HourglassTwoTone } from "@ant-design/icons";
 
 export default function EstimationsBoard({ roomData }) {
   const columns = [
@@ -12,9 +13,20 @@ export default function EstimationsBoard({ roomData }) {
     {
       title: "Estimate",
       render: (userID) => {
-        const userEstimate =
-          roomData?.estimates?.[userID] || "Not estimated yet";
-        return roomData?.isVisible ? userEstimate : "X";
+        const userEstimate = roomData?.estimates?.[userID];
+        if (userEstimate) {
+          return (
+            <center>
+              {roomData?.isVisible ? userEstimate : <EyeInvisibleTwoTone />}
+            </center>
+          );
+        } else {
+          return (
+            <center>
+              <HourglassTwoTone />
+            </center>
+          );
+        }
       },
     },
   ];
