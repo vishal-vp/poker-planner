@@ -1,3 +1,7 @@
 .estimationsBoard {
   margin-top: 1.8rem;
 }
+
+.estimateCell {
+  text-align: center;
+}

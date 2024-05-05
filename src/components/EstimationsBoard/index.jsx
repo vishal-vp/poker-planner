@@ -14,19 +14,24 @@ export default function EstimationsBoard({ roomData }) {
       title: "Estimate",
       render: (userID) => {
         const userEstimate = roomData?.estimates?.[userID];
+        let content;
+        let title = "";
         if (userEstimate) {
-          return (
-            <center>
-              {roomData?.isVisible ? userEstimate : <EyeInvisibleTwoTone />}
-            </center>
-          );
+          if (roomData?.isVisible) {
+            content = userEstimate;
+          } else {
+            content = <EyeInvisibleTwoTone />;
+            title = "Estimate hidden";
+          }
         } else {
-          return (
-            <center>
-              <HourglassTwoTone />
-            </center>
-          );
+          content = <HourglassTwoTone title="Waiting for estimate" />;
+          title = "Waiting for estimate";
         }
+        return (
+          <div title={title} className={styles.estimateCell}>
+            {content}
+          </div>
+        );
       },
     },
   ];
